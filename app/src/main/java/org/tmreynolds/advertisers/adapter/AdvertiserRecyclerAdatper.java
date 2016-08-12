@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.tmreynolds.advertisers.MainActivity;
 import org.tmreynolds.advertisers.R;
-import org.tmreynolds.advertisers.model.Advertiser;
+import org.tmreynolds.advertisers.model.Advertisers;
 
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Created by tmrdev on 7/26/16.
@@ -19,21 +21,25 @@ import java.util.List;
 public class AdvertiserRecyclerAdatper extends RecyclerView.Adapter<AdvertiserRecyclerAdatper.AdvertiserViewHolder> {
 
 
-    private List<Advertiser> advertiser;
+    //private List<Advertisers> advertiser;
+    TreeMap<String, List<MainActivity.Details>> advertiser;
     private int rowLayout;
     private Context context;
+    // http://stackoverflow.com/questions/34848401/divide-elements-on-groups-in-recyclerview
 
     public static class AdvertiserViewHolder extends RecyclerView.ViewHolder{
 
         TextView totalImpressions;
+        TextView advertiserId;
 
         public AdvertiserViewHolder(View itemView) {
             super(itemView);
             totalImpressions = (TextView) itemView.findViewById(R.id.total_impressions);
+            advertiserId = (TextView) itemView.findViewById(R.id.advertiser_id);
         }
     }
 
-    public AdvertiserRecyclerAdatper(List<Advertiser> advertiser, int rowLayout, Context context){
+    public AdvertiserRecyclerAdatper(TreeMap<String, List<MainActivity.Details>> advertiser, int rowLayout, Context context){
         this.advertiser = advertiser;
         this.rowLayout = rowLayout;
         this.context = context;
@@ -46,10 +52,23 @@ public class AdvertiserRecyclerAdatper extends RecyclerView.Adapter<AdvertiserRe
     }
 
     @Override
+    public int getItemViewType(int position) {
+        // Just as an example, return 0 or 1 depending on position
+        // Note that unlike in ListView adapters, types don't have to be contiguous
+        int viewTypePosition = position % 2;
+        Log.i("givt", " view type position -> " + viewTypePosition);
+        return viewTypePosition;
+    }
+
+    @Override
     public void onBindViewHolder(AdvertiserViewHolder holder, final int position) {
+        /*
         Log.i("call", "total impressions -> " + advertiser.get(position).getImpressionsTotal());
-        String totalImpressions = String.valueOf(advertiser.get(position).getImpressionsTotal());
-        holder.totalImpressions.setText(totalImpressions);
+        String totalImpressionsValue = String.valueOf(advertiser.get(position).getImpressionsTotal());
+        String advertiserIdValue = String.valueOf(advertiser.get(position).getAdvertiserId());
+        holder.totalImpressions.setText(totalImpressionsValue);
+        holder.advertiserId.setText(advertiserIdValue);
+        */
     }
 
 

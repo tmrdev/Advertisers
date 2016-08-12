@@ -1,8 +1,9 @@
 package org.tmreynolds.advertisers.rest;
 
-import org.tmreynolds.advertisers.model.Advertiser;
+import org.tmreynolds.advertisers.model.Advertisers;
 
 import java.util.List;
+import java.util.Observable;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -17,6 +18,9 @@ import retrofit2.http.Query;
 public interface AdvertisersInterface {
 
     @GET("code_test.php?")
-    Call<List<Advertiser>> getAdvertiser(@Query("advertiser_id") int advertiserId);
+    Call<List<Advertisers>> getAdvertiser(@Query("advertiser_id") long advertiserId);
 
+
+    //@GET("code_test.php?")
+    //Observable<List<Advertisers>> getAdvertiser(@Query("advertiser_id") long advertiserId);
 }

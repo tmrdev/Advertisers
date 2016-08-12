@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import org.tmreynolds.advertisers.MainActivity;
 import org.tmreynolds.advertisers.R;
-import org.tmreynolds.advertisers.model.Advertisers;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -21,8 +20,8 @@ import java.util.TreeMap;
 public class AdvertiserRecyclerAdatper extends RecyclerView.Adapter<AdvertiserRecyclerAdatper.AdvertiserViewHolder> {
 
 
-    //private List<Advertisers> advertiser;
-    TreeMap<String, List<MainActivity.Details>> advertiser;
+    //private List<Advertisers> advertisers;
+    TreeMap<String, List<MainActivity.Details>> advertisers;
     private int rowLayout;
     private Context context;
     // http://stackoverflow.com/questions/34848401/divide-elements-on-groups-in-recyclerview
@@ -39,8 +38,8 @@ public class AdvertiserRecyclerAdatper extends RecyclerView.Adapter<AdvertiserRe
         }
     }
 
-    public AdvertiserRecyclerAdatper(TreeMap<String, List<MainActivity.Details>> advertiser, int rowLayout, Context context){
-        this.advertiser = advertiser;
+    public AdvertiserRecyclerAdatper(TreeMap<String, List<MainActivity.Details>> advertisers, int rowLayout, Context context){
+        this.advertisers = advertisers;
         this.rowLayout = rowLayout;
         this.context = context;
     }
@@ -62,10 +61,28 @@ public class AdvertiserRecyclerAdatper extends RecyclerView.Adapter<AdvertiserRe
 
     @Override
     public void onBindViewHolder(AdvertiserViewHolder holder, final int position) {
+        Log.i("poistiond", "position dump from bind -> " + position);
+        Object key = advertisers.keySet().toArray()[position];
+        Log.i("bind", "bind -> key -> " + key.toString());
+        List<MainActivity.Details> details = advertisers.get(key);
+        // dumping the Details list values will not have a position to deal with
+        // if the above key position can be obtained directly then will need to dump out all detail values
+        //Log.i("bind", "details -> " + details.get(position).getAdvertiserId());
+        String advertiserIdValue = String.valueOf(key);
+        holder.advertiserId.setText(advertiserIdValue);
         /*
-        Log.i("call", "total impressions -> " + advertiser.get(position).getImpressionsTotal());
-        String totalImpressionsValue = String.valueOf(advertiser.get(position).getImpressionsTotal());
-        String advertiserIdValue = String.valueOf(advertiser.get(position).getAdvertiserId());
+        Log.i("call", "total impressions -> " + advertisers.get(position).getImpressionsTotal());
+        String totalImpressionsValue = String.valueOf(advertisers.get(position).getImpressionsTotal());
+        String advertiserIdValue = String.valueOf(advertisers.get(position).getAdvertiserId());
+        holder.totalImpressions.setText(totalImpressionsValue);
+        holder.advertiserId.setText(advertiserIdValue);
+        */
+//        Log.i("call", "total impressions -> " + advertisers.get(position).get(position).getAdvertiserId());
+
+        //advertisers.get(position).getImpressionsTotal());
+        /*
+        String totalImpressionsValue = String.valueOf(advertisers.get(position).getImpressionsTotal());
+        String advertiserIdValue = String.valueOf(advertisers.get(position).getAdvertiserId());
         holder.totalImpressions.setText(totalImpressionsValue);
         holder.advertiserId.setText(advertiserIdValue);
         */
@@ -74,6 +91,6 @@ public class AdvertiserRecyclerAdatper extends RecyclerView.Adapter<AdvertiserRe
 
     @Override
     public int getItemCount() {
-        return advertiser.size();
+        return advertisers.size();
     }
 }

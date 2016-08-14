@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import org.tmreynolds.advertisers.adapter.AdvertiserRecyclerAdatper;
 import org.tmreynolds.advertisers.model.Advertisers;
+import org.tmreynolds.advertisers.model.Details;
 import org.tmreynolds.advertisers.rest.AdvertisersInterface;
 
 import java.util.ArrayList;
@@ -26,9 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
     List<String> advertiserDates = new ArrayList<>();
     public static final String BASE_URL = "http://dan.triplelift.net/";
 
+    /*
+     * Basic TreeMap structure is working and data point tests showing sorting working and ad totals verified
+     * - should mItems be processed before calling recycler adapter?
+     * - Need to make the layout cleaner with good date header layout (color background and other styling?
+     * - Need to total all impressions for the day ( do this before hitting recycler adaptor?
+     * - Need an efficient way to measure the time it takes to call all three api calls
+     *  - Will dev tools like mockito and others help with this?
+     */
     /*
      * Advertiser ids api call
      * http://dan.triplelift.net/code_test.php?advertiser_id=123
@@ -83,11 +91,13 @@ public class MainActivity extends AppCompatActivity {
         httpClient.addInterceptor(logging);  // <-- this is the important line!
 
         //RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
+        // builder needs rxAdapter set
+        //.addCallAdapterFactory(rxAdapter)
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                //.addCallAdapterFactory(rxAdapter)
+
                 .client(httpClient.build())
                 .build();
 
@@ -138,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
                     // mRecyclerView.setAdapter(new AdvertiserRecyclerAdatper(mAdvertisers, R.layout.list_item_ad_ids, getApplicationContext()));
                     mRecyclerView.setAdapter(new AdvertiserRecyclerAdatper(dateAdvertiserData, R.layout.list_item_ad_ids, getApplicationContext()));
                 }
+
+                /* data dump testing below
+
+
                 //Advertiser advertiser = response.body();
                 //Log.i("call", "data -> " + advertiser.getDataObjects().get(0).getImpressionsTotal());
 
@@ -157,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                * end data dump testing
+                */
 
             }
 
@@ -181,28 +197,16 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < mAdvertisers.size(); i++) {
 
             if (mAdvertisers.get(i).getGroupDate().equals(itemDate)) {
-
                 Log.i("filter", "date match -> " + itemDate + " : " + mAdvertisers.get(i).getAdvertiserId() + ": imp->" + mAdvertisers.get(i).getImpressionsTotal());
                 Details itemDetails = new Details();
                 itemDetails.impressions = mAdvertisers.get(i).getImpressionsTotal();
                 itemDetails.advertiserId = mAdvertisers.get(i).getAdvertiserId();
                 groupDetails.add(itemDetails);
-                // Log.i("dd", " total -->" + groupDetails.size());
-                // dateAdvertiserData.put(itemDate, groupDetails);
             }
 
         }
         return groupDetails;
     }
 
-    public class Details{
-        int impressions;
-        int advertiserId;
-        int numberOfClicks;
 
-        public int getImpressions() { return impressions; }
-        public int getAdvertiserId() { return advertiserId; }
-        public int getNumberOfClicks() { return numberOfClicks; }
-
-    }
 }

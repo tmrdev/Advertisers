@@ -24,13 +24,20 @@ public class Advertisers {
     @SerializedName("ymd")
     public String groupDate;
 
+    public boolean isTimedOut = false;
+
+    public void setIsTimedOut(boolean isTimedOut) {
+        this.isTimedOut = isTimedOut;
+    }
+
+    public boolean getIsTimedOut() { return isTimedOut; }
     public int getAdvertiserId() { return advertiserId; }
     public int getImpressionsTotal() { return impressionsTotal; }
     public String getGroupDate() {
         Log.i("date", "date -> " + groupDate);
         // SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat displayDate = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat displayDate = new SimpleDateFormat("MM/dd/yyyy");
         Date createDate = null;
         try {
             createDate = formatter.parse(groupDate);

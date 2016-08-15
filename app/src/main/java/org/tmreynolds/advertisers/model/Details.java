@@ -7,7 +7,9 @@ public class Details{
     public int impressions;
     public int advertiserId;
     public int numberOfClicks;
+    public boolean isTimedOut = false;
 
+    public boolean getIsTimedOut() { return isTimedOut; }
     public int getImpressions() { return impressions; }
     public int getAdvertiserId() { return advertiserId; }
     public int getNumberOfClicks() { return numberOfClicks; }

@@ -10,7 +10,9 @@ public class EventItem extends ListItem {
 
     public int advertiserId;
     public int totalImpressions;
+    public boolean isTimedOut = false;
 
+    public boolean getIsTimedOut() { return isTimedOut; }
     public int getAdvertiserId()  { return advertiserId; }
     public int getTotalImpressions() { return totalImpressions; }
 

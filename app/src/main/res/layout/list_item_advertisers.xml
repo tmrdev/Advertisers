@@ -24,13 +24,13 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="ID: "
                 android:id="@+id/ad_id_label"
-                android:layout_gravity="top" />
+                android:layout_gravity="center_vertical" />
 
             <TextView
                 android:id="@+id/advertiser_id"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="16dp"
                 android:textStyle="bold"
                 android:textSize="16sp" />
@@ -43,15 +43,16 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/star"
                 android:tint="@color/colorAccent"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center" />
 
 
             <TextView
                 android:id="@+id/total_impressions"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="5.0" />
+                android:layout_marginLeft="0dp"
+                android:text="0"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 
